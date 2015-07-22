@@ -1,15 +1,13 @@
 # Puppet module: typo3
-[![Build Status](https://travis-ci.org/tommy-muehle/puppet-typo3.svg?branch=master)](https://travis-ci.org/tommy-muehle/puppet-typo3)
+[![Build Status](https://travis-ci.org/move-elevator/puppet-typo3.svg?branch=master)](https://travis-ci.org/move-elevator/puppet-typo3)
 This puppet module can be used to easily generate (multiple) typo3 projects.
-
-**Please feel free to give me feedback, feature-requests or new requirements**
 
 ## Install
 
 Just clone the repo in your modules folder.
 
     # /path/to/modules
-    git clone git@github.com:tommy-muehle/puppet-typo3.git typo3
+    git clone git@github.com:move-elevator/puppet-typo3.git typo3
 
 ## Usage
 
@@ -177,9 +175,6 @@ For a TYPO3 6.2.0beta1 (v6) project:
     typo3_src -> typo3_src-6.2.0beta1
     index.php -> typo3_src/index.php
     typo3 -> typo3_src/typo3
-
-## Testing
-To test the module you can use the related [testbox](https://github.com/tommy-muehle/puppet-typo3-testbox)
 
 ## ToDo's
 
