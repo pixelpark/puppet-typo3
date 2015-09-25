@@ -176,7 +176,7 @@ For a TYPO3 6.2.0beta1 (v6) project:
     index.php -> typo3_src/index.php
     typo3 -> typo3_src/typo3
 
-## ToDo's
+## Contribution
 
-* Failure-Handling
-* Write tests
+Please take a look on [Test-VM](https://github.com/move-elevator/puppet-test-vm) if you want to 
+make and test changes. 
