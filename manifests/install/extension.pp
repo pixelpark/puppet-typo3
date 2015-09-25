@@ -32,33 +32,33 @@
 # Tommy Muehle
 #
 define typo3::install::extension (
-
-  $key = $name["key"],
-  $repo = $name["repo"],
-  $tag_name = $name["tag"],
   $path,
   $owner,
-  $group
-
+  $group,
+  $key = $name['key'],
+  $repo = $name['repo'],
+  $tag_name = $name['tag'],
 ) {
 
-  if $tag_name == "" or $tag_name == undef {
-     $tag_name = "master"
+  if $tag_name == '' or $tag_name == undef {
+    $tag = 'master'
+  } else {
+    $tag = $tag_name
   }
 
   exec {"git-clone ${key}":
-    command     => "git clone --no-hardlinks ${repo} ${key}",
-    creates     => "${path}/${key}/.git",
-    cwd         => $path,
-    onlyif      => "test ! -d ${path}/${key}",
-    require     => Package[$typo3::packages],
+    command => "git clone --no-hardlinks ${repo} ${key}",
+    creates => "${path}/${key}/.git",
+    cwd     => $path,
+    onlyif  => "test ! -d ${path}/${key}",
+    require => Package[$typo3::packages],
   }
 
-  exec {"git-checkout ${key} ${version}":
-    command     => "git checkout ${tag_name}",
-    cwd         => "${path}/${key}",
-    notify      => Exec["chown ${key}"],
-    require     => Exec["git-clone ${key}"]
+  exec {"git-checkout ${key}":
+    command => "git checkout ${$tag}",
+    cwd     => "${path}/${key}",
+    notify  => Exec["chown ${key}"],
+    require => Exec["git-clone ${key}"]
   }
 
   exec {"chown ${key}":
