@@ -62,15 +62,16 @@
 define typo3::project (
 
   $version,
-  $typo3_src_path = "",
   $site_path,
   $site_user,
   $site_group,
 
-  $db_pass = "",
-  $db_user = "",
-  $db_host = "",
-  $db_name = "",
+  $typo3_src_path = '',
+
+  $db_pass = '',
+  $db_user = '',
+  $db_host = '',
+  $db_name = '',
 
   $local_conf = {},
   $extensions = [],
@@ -90,7 +91,7 @@ define typo3::project (
     $file_permission    = 644
   }
 
-  if ( $typo3_src_path == "" or $typo3_src_path == undef ) {
+  if ( $typo3_src_path == '' or $typo3_src_path == undef ) {
     $typo3_src = $site_path
   } else {
     $typo3_src = $typo3_src_path
@@ -110,9 +111,9 @@ define typo3::project (
   }
 
   typo3::install::extension { $extensions:
-    path    => "${site_path}/typo3conf/ext",
-    owner   => $site_user,
-    group   => $site_group,
+    path  => "${site_path}/typo3conf/ext",
+    owner => $site_user,
+    group => $site_group,
   }
 
   File {
@@ -133,13 +134,13 @@ define typo3::project (
     "${site_path}/typo3conf/l10n",
     "${site_path}/typo3conf/ext"
   ]:
-    ensure  => "directory",
-    mode    => $dir_permission
+    ensure => 'directory',
+    mode   => $dir_permission
   }
 
   file { "${site_path}/typo3conf/extTables.php":
-    replace => "no",
-    ensure  => "present",
+    ensure  => 'present',
+    replace => 'no',
     content => template('typo3/extTables.php.erb'),
     require => File["${site_path}/typo3conf"]
   }
@@ -147,8 +148,8 @@ define typo3::project (
   if $enable_install_tool == true {
 
     file { "${site_path}/typo3conf/ENABLE_INSTALL_TOOL":
-      replace => "no",
-      ensure  => "present",
+      ensure  => 'present',
+      replace => 'no',
       mode    => $file_permission,
       content => '',
       require => File["${site_path}/typo3conf"],
@@ -157,7 +158,7 @@ define typo3::project (
   } else {
 
     tidy { "${site_path}/typo3conf/ENABLE_INSTALL_TOOL":
-      age => "1h"
+      age => '1h'
     }
 
   }
@@ -165,18 +166,18 @@ define typo3::project (
   if $version =~ /^4\./ {
 
     file { "${site_path}/typo3conf/localconf.php":
-      replace   => "no",
-      ensure    => "present",
-      content   => template('typo3/localconf.php.erb'),
-      mode      => $file_permission,
-      require   => File["${site_path}/typo3conf"],
+      ensure  => 'present',
+      replace => 'no',
+      content => template('typo3/localconf.php.erb'),
+      mode    => $file_permission,
+      require => File["${site_path}/typo3conf"],
     }
 
   } elsif $version =~ /^6\./ {
 
     File {
-      replace   => "no",
-      ensure    => "present",
+      replace   => 'no',
+      ensure    => 'present',
       mode      => $file_permission
     }
 
@@ -191,14 +192,14 @@ define typo3::project (
     file {[
       "${site_path}/fileadmin/_processed_"
     ]:
-      ensure    => "directory",
-      mode      => $dir_permission,
-      require   => File["${site_path}/fileadmin"]
+      ensure  => 'directory',
+      mode    => $dir_permission,
+      require => File["${site_path}/fileadmin"]
     }
 
     if $version =~ /^6\.2/ {
       file { "${site_path}/typo3conf/PackageStates.php":
-        ensure    => "file",
+        ensure    => 'file',
       }
     }
   }
