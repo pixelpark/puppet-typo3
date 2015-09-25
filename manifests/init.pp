@@ -7,20 +7,12 @@
 #
 class typo3 (){
 
-  if $::operatingsystem =~ /^(Debian|Ubuntu)$/ and versioncmp($::operatingsystemrelease, "12") < 0 {
-    $packages = [ "wget", "git-core" ]
+  if $::operatingsystem =~ /^(Debian|Ubuntu)$/ and versioncmp($::operatingsystemrelease, '12') < 0 {
+    $packages = [ 'wget', 'git-core' ]
   } else {
-    $packages = [ "wget", "git" ]
+    $packages = [ 'wget', 'git' ]
   }
 
-  safepackage { $packages: ensure => "installed" }
-	
-}
-
-define safepackage ( $ensure = installed ) {
-
-  if !defined(Package[$title]) {
-    package { $title: ensure => $ensure }
-  }
+  typo3::safe_package { $packages: ensure => 'installed' }
 
 }
