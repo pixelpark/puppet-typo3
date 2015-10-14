@@ -27,7 +27,7 @@ define typo3::install::source (
   $source_file = "${version}.tar.gz"
 
   exec { "Get ${name}":
-    command => "wget ${typo3::params::download_url}/${version} -O ${source_file}",
+    command => "curl -Lk ${typo3::params::download_url}/${version} >${source_file}",
     cwd     => $src_path,
     onlyif  => "test ! -d typo3_src-${version}",
   }
