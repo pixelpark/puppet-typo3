@@ -8,9 +8,9 @@
 class typo3 (){
 
   if $::operatingsystem =~ /^(Debian|Ubuntu)$/ and versioncmp($::operatingsystemrelease, '12') < 0 {
-    $packages = [ 'wget', 'git-core' ]
+    $packages = [ 'curl', 'git-core' ]
   } else {
-    $packages = [ 'wget', 'git' ]
+    $packages = [ 'curl', 'git' ]
   }
 
   typo3::safe_package { $packages: ensure => 'installed' }
