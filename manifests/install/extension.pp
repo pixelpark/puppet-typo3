@@ -68,7 +68,7 @@ define typo3::install::extension (
     refreshonly => true,
     cwd         => $path,
     require     => Exec["git-clone ${key}"],
-    path    => ['/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/'],
+    path        => ['/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/'],
   }
 
 }
