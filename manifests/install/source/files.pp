@@ -45,14 +45,14 @@ define typo3::install::source::files (
       replace => true
     }
 
-    $source_index_php = "${target_typo3}/index.php"
+    $source_index_php = "typo3_src/index.php"
     $target_index_php = "${site_path}/index.php"
     file { $target_index_php:
       ensure  => link,
       target  => $source_index_php,
     }
 
-    $source_typo3_core = "${target_typo3}/typo3"
+    $source_typo3_core = "typo3_src/typo3"
     $target_typo3_core = "${site_path}/typo3"
 
     file { $target_typo3_core:
@@ -61,7 +61,7 @@ define typo3::install::source::files (
     }
 
     if versioncmp($version, '6.1.99') <= 0 {
-      $source_t3lib = "${target_typo3}/t3lib"
+      $source_t3lib = "typo3_src/t3lib"
       $target_t3lib = "${site_path}/t3lib"
       file { $target_t3lib:
         ensure  => link,
