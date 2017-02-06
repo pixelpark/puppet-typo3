@@ -22,7 +22,7 @@
 define typo3::install::source (
   $version,
   $src_path,
-  $download_url = 'https://get.typo3.org/',
+  $download_url = 'https://get.typo3.org',
 ) {
 
   $source_file = "${version}.tar.gz"
