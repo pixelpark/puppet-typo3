@@ -27,14 +27,16 @@ define typo3::install::source (
 
   $source_file = "${version}.tar.gz"
   $extract_file = "typo3_src-${version}"
-  archive { $source_file:
-    ensure       => present,
-    cleanup      => true,
-    extract      => true,
-    extract_path => $src_path,
-    path         => "${src_path}/${source_file}",
-    filename     => $source_file,
-    source       => "${download_url}/${version}",
-    creates      => "${src_path}/${extract_file}",
+  if !defined(Archive[$source_file]) {
+    archive { $source_file:
+      ensure       => present,
+      cleanup      => true,
+      extract      => true,
+      extract_path => $src_path,
+      path         => "${src_path}/${source_file}",
+      filename     => $source_file,
+      source       => "${download_url}/${version}",
+      creates      => "${src_path}/${extract_file}",
+    }
   }
 }
