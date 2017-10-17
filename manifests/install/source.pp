@@ -12,38 +12,31 @@
 #   Path to source directory.
 #   Example: '/var/www/typo3'
 #
+# [*download_url*]
+#   Download URL for Typo3-Core
+#   Default: 'https://get.typo3.org/'
+#
 # == Author
 # Tommy Muehle
 #
 define typo3::install::source (
-
   $version,
-  $src_path
-
+  $src_path,
+  $download_url = 'https://get.typo3.org',
 ) {
 
-  include typo3::params
-
   $source_file = "${version}.tar.gz"
-
-  exec { "Get ${name}":
-    command => "curl -Lk ${typo3::params::download_url}/${version} >${source_file}",
-    cwd     => $src_path,
-    onlyif  => "test ! -d typo3_src-${version}",
+  $extract_file = "typo3_src-${version}"
+  if !defined(Archive[$source_file]) {
+    archive { $source_file:
+      ensure       => present,
+      cleanup      => true,
+      extract      => true,
+      extract_path => $src_path,
+      path         => "${src_path}/${source_file}",
+      filename     => $source_file,
+      source       => "${download_url}/${version}",
+      creates      => "${src_path}/${extract_file}",
+    }
   }
-
-  exec { "Untar ${name}":
-    command => "tar -xzf ${source_file}",
-    cwd     => $src_path,
-    require => Exec["Get ${name}"],
-    creates => "${src_path}/typo3_src-${version}",
-  }
-
-  exec { "Remove ${name}":
-    command => "rm -f ${src_path}/${source_file}",
-    cwd     => $src_path,
-    require => Exec["Untar ${name}"],
-    onlyif  => "test ! -f ${src_path}/${source_file}",
-  }
-
 }

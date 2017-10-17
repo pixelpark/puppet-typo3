@@ -84,11 +84,11 @@ define typo3::project (
   include typo3
 
   if ( $site_user != $site_group ) {
-    $dir_permission     = 2770
-    $file_permission    = 660
+    $dir_permission     = '2770'
+    $file_permission    = '0660'
   } else {
-    $dir_permission     = 2755
-    $file_permission    = 644
+    $dir_permission     = '2755'
+    $file_permission    = '0644'
   }
 
   if ( $typo3_src_path == '' or $typo3_src_path == undef ) {
@@ -134,13 +134,14 @@ define typo3::project (
     "${site_path}/typo3conf/l10n",
     "${site_path}/typo3conf/ext"
   ]:
-    ensure => 'directory',
-    mode   => $dir_permission
+    replace => false,
+    ensure  => 'directory',
+    mode    => $dir_permission
   }
 
   file { "${site_path}/typo3conf/extTables.php":
-    ensure  => 'present',
-    replace => 'no',
+    ensure  => file,
+    replace => false,
     content => template('typo3/extTables.php.erb'),
     require => File["${site_path}/typo3conf"]
   }
@@ -148,8 +149,8 @@ define typo3::project (
   if $enable_install_tool == true {
 
     file { "${site_path}/typo3conf/ENABLE_INSTALL_TOOL":
-      ensure  => 'present',
-      replace => 'no',
+      ensure  => file,
+      replace => false,
       mode    => $file_permission,
       content => '',
       require => File["${site_path}/typo3conf"],

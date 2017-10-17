@@ -34,43 +34,43 @@ define typo3::install::source::files (
 
   include typo3::params
 
-  $source = "${src_path}/typo3_src-${version}"
-  $target = "${site_path}/typo3_src"
-
   if str2bool($use_symlink) {
+    $source_typo3 = "${src_path}/typo3_src-${version}"
+    $target_typo3 = "${site_path}/typo3_src"
 
-    file { $target:
+    file { $target_typo3:
       ensure  => link,
-      target  => $source,
+      target  => $source_typo3,
       force   => true,
       replace => true
     }
 
-    exec { "${site_path}: ln -s typo3_src/index.php index.php":
-      command => 'ln -s typo3_src/index.php index.php',
-      cwd     => $site_path,
-      require => File[$target],
-      unless  => 'test -L index.php',
+    $source_index_php = "typo3_src/index.php"
+    $target_index_php = "${site_path}/index.php"
+    file { $target_index_php:
+      ensure  => link,
+      target  => $source_index_php,
     }
 
-    exec { "${site_path}: ln -s typo3_src/typo3 typo3":
-      command => 'ln -s typo3_src/typo3 typo3',
-      cwd     => $site_path,
-      require => File[$target],
-      unless  => 'test -d typo3',
+    $source_typo3_core = "typo3_src/typo3"
+    $target_typo3_core = "${site_path}/typo3"
+
+    file { $target_typo3_core:
+      ensure  => link,
+      target  => $source_typo3_core,
     }
 
     if versioncmp($version, '6.1.99') <= 0 {
-      exec { "${site_path}: ln -s typo3_src/t3lib t3lib":
-        command => 'ln -s typo3_src/t3lib t3lib',
-        cwd     => $site_path,
-        require => File[$target],
-        unless  => 'test -d t3lib',
+      $source_t3lib = "typo3_src/t3lib"
+      $target_t3lib = "${site_path}/t3lib"
+      file { $target_t3lib:
+        ensure  => link,
+        target  => $source_t3lib,
       }
     }
 
   } else {
-
+    $source = "${src_path}/typo3_src-${version}"
     file { "${site_path}/index.php":
       ensure => 'present',
       source => "${source}/index.php"
