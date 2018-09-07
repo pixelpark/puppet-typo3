@@ -203,5 +203,32 @@ define typo3::project (
         ensure    => 'file',
       }
     }
+  } elsif $version =~ /^8\./ {
+
+    File {
+      replace   => 'no',
+      ensure    => 'present',
+      mode      => $file_permission
+    }
+
+    file { "${site_path}/typo3conf/LocalConfiguration.php":
+      content   => template('typo3/LocalConfiguration.php.erb'),
+    }
+
+    file { "${site_path}/typo3conf/AdditionalConfiguration.php":
+      content   => template('typo3/AdditionalConfiguration.php.erb'),
+    }
+
+    file {[
+      "${site_path}/fileadmin/_processed_"
+    ]:
+      ensure  => 'directory',
+      mode    => $dir_permission,
+      require => File["${site_path}/fileadmin"]
+    }
+
+    file { "${site_path}/typo3conf/PackageStates.php":
+      ensure    => 'file',
+    }
   }
 }

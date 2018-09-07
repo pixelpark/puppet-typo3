@@ -1,6 +1,6 @@
 {
     "name": "puppet-typo3",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "author": "puppetcommunity",
     "summary": "Compressed archive file download and extraction with native types/providers for Windows and Unix",
     "license": "Apache-2.0",
