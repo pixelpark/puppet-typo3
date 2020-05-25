@@ -16,18 +16,14 @@
 # Tommy Muehle
 #
 define typo3::install::source (
-
-  $version,
-  $src_path
-
+  String               $version,
+  Stdlib::Absolutepath $src_path,
+  String               $download_url = 'get.typo3.org',
 ) {
-
-  include typo3::params
-
   $source_file = "${version}.tar.gz"
 
   exec { "Get ${name}":
-    command => "curl -Lk ${typo3::params::download_url}/${version} >${source_file}",
+    command => "curl -Lk ${download_url}/${version} >${source_file}",
     cwd     => $src_path,
     onlyif  => "test ! -d typo3_src-${version}",
   }
