@@ -25,6 +25,7 @@ define typo3::install::source (
   exec { "Get ${name}":
     command => "curl -Lk ${download_url}/${version} >${source_file}",
     cwd     => $src_path,
+    path    => $facts['path'],
     onlyif  => "test ! -d typo3_src-${version}",
   }
 
@@ -32,6 +33,7 @@ define typo3::install::source (
     command => "tar -xzf ${source_file}",
     cwd     => $src_path,
     require => Exec["Get ${name}"],
+    path    => $facts['path'],
     creates => "${src_path}/typo3_src-${version}",
   }
 
@@ -39,6 +41,7 @@ define typo3::install::source (
     command => "rm -f ${src_path}/${source_file}",
     cwd     => $src_path,
     require => Exec["Untar ${name}"],
+    path    => $facts['path'],
     onlyif  => "test ! -f ${src_path}/${source_file}",
   }
 
