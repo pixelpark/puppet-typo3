@@ -16,9 +16,9 @@
 # Tommy Muehle
 #
 define typo3::install::source (
-  String               $version,
-  Stdlib::Absolutepath $src_path,
-  String               $download_url = 'get.typo3.org',
+  $version,
+  $src_path,
+  $download_url = $typo3::download_url,
 ) {
   $source_file = "${version}.tar.gz"
 
