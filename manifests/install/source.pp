@@ -42,7 +42,7 @@ define typo3::install::source (
     cwd     => $src_path,
     require => Exec["Untar ${name}"],
     path    => $facts['path'],
-    onlyif  => "test ! -f ${src_path}/${source_file}",
+    onlyif  => "test -f ${src_path}/${source_file}",
   }
 
 }
